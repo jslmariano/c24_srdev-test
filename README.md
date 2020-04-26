@@ -1,3 +1,8 @@
+Cafe24 Philippines Inc.
+===
+
+### SENIOR DEVELOPER - Take Home/Practical Test
+
 Applicant Guidelines
 ===
 * Inform HR when you plan to start the test. The start date should be agreed between the applicant and HR.
@@ -30,7 +35,7 @@ __Answer: <#List of issues and action plans ordered by priority>__
 
 Question #2 - Optimized SQL Query
 ---
-Refer to q2-erd.png in this repository.
+Refer to q2-erd.png in this repository. https://gitlab.com/cafe24ph/srdev-test/-/blob/master/q2-erd.png
 
 With the given ERD, construct an optimized SQL query to gather the following results in the most efficient way.
 
