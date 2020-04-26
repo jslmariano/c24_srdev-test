@@ -20,7 +20,7 @@ Applicant Guidelines
 * If you have any issues, kindly contact HR.
 
 
-Question # 1 - Site Traffic Scenario
+Question # 1 - Site Optimization and Server Skills
 ---
 __Scenario:__<br>
 You have a website that tracks a lot of statistics about the population in general. The average number of visitors to your site is about 200 a day worldwide. Due to this small number, you haven’t thought about improving anything on your website since you’ve started up the website. Due to the outbreak of coronavirus, you had an idea to provide other statistics on your website. So you added a new section for coronavirus statistics on your website and deployed it. Suddenly, the number of visitors per day jumped from 200 to 200,000 a day worldwide. Your site monitoring logs started sending HTTP errors, and finally, your hosting server went down.
@@ -33,7 +33,7 @@ __Questions:__<br>
 __Answer: <#List of issues and action plans ordered by priority>__
 
 
-Question #2 - Optimized SQL Query
+Question #2 - Database Schema and SQL
 ---
 Refer to q2-erd.png in this repository. https://gitlab.com/cafe24ph/srdev-test/-/blob/master/q2-erd.png
 
@@ -53,7 +53,7 @@ __Answer: <#Optimized SQL query>__
 
 ```
 
-Question #3 - Search Algorithm
+Question #3 - Logic and Algorithm Skills
 ---
 Given the multi-dimensional array:
 ```$php
@@ -108,7 +108,7 @@ Create a search algorithm within a function that will satisfy the following requ
 __Answer: <#Search function in pseudocode>__
 
 
-Question #4 - Online Course Registration App Design
+Question #4 - App Design Flowchart
 ---
 __Specifications:__
 * Courses can be equal to 1 to 3 units.
