@@ -8,16 +8,19 @@ Applicant Guidelines
 * Inform HR when you plan to start the test. The start date should be agreed between the applicant and HR.
 * On the agreed start date, HR will give you access to the test repository in GitLab. 
 * Fork this repository immediately to your personal GitLab account once HR confirmed your access.
+* Do not clone the original repository and only push changes to your forked repository.
 * HR will inform you of your exam deadline.
 * Make sure that your forked repository is private and add cafe24ph username as a Developer.
 * Do not clone the repository. Your forked repository should appear in the original repository's fork list.
 * Branch out from the master branch and name the new branch with your name.
 * Follow the instructions and answer the five questions within your branch.
-* When you're done, create a merge request to the master branch and send an email to HR with the following details:
+* When you're done, create a merge request to the **master branch of your forked repository** and send an email to HR with the following details:
   * Working Branch Name
   * Merge Request Link
   * Final Commit Hash
 * If you have any issues, kindly contact HR.
+
+##### WARNING: Do not send a merge request to the original repository. Use your forked repository for changes and merge request. Thank you.
 
 
 Question # 1 - Site Optimization and Server Skills
