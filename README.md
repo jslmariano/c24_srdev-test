@@ -128,6 +128,6 @@ __Requirements:__<br>
 * Provide a flowchart of the application design and commit it in the root directory with a filename of "q4-answer".
 
 __Instructions:__<br>
-* Use app.diagrams.net and export your flowchart and ERD to an image and commit in the given directory.
+* Use app.diagrams.net and export your flowchart to an image and commit in the given directory.
 
 __Answer: <#App Design Flowchart>__
