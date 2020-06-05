@@ -6,7 +6,7 @@ Cafe24 Philippines Inc.
 Applicant Guidelines
 ===
 * Inform HR when you plan to start the test. The start date should be agreed between the applicant and HR.
-* On the agreed start date, HR will give you access to the test repository in GitLab. 
+* On the agreed start date, HR will give you access to the test repository in GitLab.
 * Fork this repository immediately to your personal GitLab account once HR confirmed your access.
 * Do not clone the original repository and only push changes to your forked repository.
 * HR will inform you of your exam deadline.
@@ -35,6 +35,27 @@ __Questions:__<br>
 
 __Answer: <#List of issues and action plans ordered by priority>__
 
+1. If the data displayed on the website is coming from a 3rd-party api.
+    - Check the 3rd party APIS doc if it has rate-limiting terms.
+    - If it has a rate-limiting term, you can try contacting the provider to request an increase for the said API
+1. If the hosting provider has a QUOTA per request marked on your account
+    - File a quota increase on your provider so you can accept requests more than the limit within your accounts quota
+1. If the error was **HTTP 429 Too Many Requests**
+    - Adjust web service (nginx/apache) configuration files to accept many  requests
+    - Use AB load testing to tune the correct configuration
+1. If the error is someother like 4xx and 5xx
+    - Check/Configure the database to accept simultaneous connections ( if data is in database )
+    - Optimize the database queries ( if data is in database )
+    - Check/Optimize the codes if poorly written
+    - Consider using a CDN for resources like CSS, JS, Images to reduce bandwidth on your server, high bandwidth can strain your server eventually returning some few HTTP Code errors in general
+1. Assuming there is no rate-limit, quota on account, application is optimized, and query is optimized, then consider enhancements below
+    - Consider using REDIS and store datasets that are rarely updated from the database
+    - Use a load balancer and a group of instances to tame high volume requests
+    - Use database caching for common queries
+    - Use database replication with multiple read-only slaves ( For heavy selects )
+    - Use database connection pooler ( For heavy connection rate )
+    - Check latency between application and database as this may cause 5xx sometimes or HTTP REQUESTS time outs. Consider moving the database and instances under the same region
+
 
 Question #2 - Database Schema and SQL
 ---
@@ -52,7 +73,33 @@ With the given ERD, construct an optimized SQL query to gather the following res
 * Customer Address:
 
 __Answer: <#Optimized SQL query>__
-```$sql
+```
+select
+    -- Order No
+    invoice.id as "Order No"
+    -- Branch
+    ,branch.name as "Branch"
+    -- Branch Address
+    ,branch.address as "Branch Address"
+    -- Food List (with price and count)
+    ,group_concat(concat("Name: ", food.name), concat(" Price: " , food.price), concat(" Count: " , order_food.count) SEPARATOR ', ') as "Food List ( with price and count )"
+    -- Total Amount
+    ,invoice.total_amount as "Total Amount"
+    -- Customer Contact No
+    ,customer.contact_number as "Customer Contact No"
+    -- Customer Address
+    ,customer.address as "Customer Address"
+from
+    invoice
+left join branch on branch.id = invoice.branch_id
+left join delivery on delivery.invoice_id = invoice.id
+left join customer on customer.id = delivery.customer_id
+left join order_food on order_food.invoice_id = invoice.id
+left join food on food.id = order_food.food_id
+left join rider on rider.id = delivery.rider_id
+where rider.name = "<Input RIDER NAME>" -- You can also comment this to show all orders
+group by invoice.id, customer.id
+;
 
 ```
 
@@ -110,6 +157,56 @@ Create a search algorithm within a function that will satisfy the following requ
 
 __Answer: <#Search function in pseudocode>__
 
+1. **FUNCTION** search_exam
+1. **ACCEPT** array argument current_posts
+1. **ACCEPT** string argument search_this
+1. **DECLARE** array sorted_posts
+1. **DECLARE** array search_results
+1. **DECLARE** array sort_maps
+1. **FOR EVERY** current_post **WITH** post_key **IN** current_posts
+    1. **DECLARE** string search_in
+    1. **ASSIGN** search_in = search_in & "\<space\>" & current_post[ 'title' ]
+    1. **ASSIGN** search_in = search_in & "\<space\>" & current_post[ 'subtitle' ]
+    1. **ASSIGN** search_in = search_in & "\<space\>" & current_post[ 'content' ]
+    1. **FOR EVERY** tag **IN** current_post[ tags ]
+        1. **ASSIGN** search_in = search_in & "\<space\>" & tag
+    1. **ENDFOR**
+    1. **FOR EVERY** image **IN** current_post[ images ]
+        1. **ASSIGN** search_in = search_in & "\<space\>" & image[ 'caption' ]
+    1. **ENDFOR**
+    1. **SET** search_in **TO LOWERCASE**
+    1. **SET** search_this **TO LOWERCASE**
+    1. **IF** search_in **CONTAINS** search_this **THEN**
+          1. **ASSIGN** search_results[ post_key ] = current_post
+    1. **ENDIF**
+1. **ENDFOR**
+1. **FOR EVERY** search_result **WITH** result_key **IN** search_results
+    1. **DECLARE** array sort_map
+    1. **ASSIGN** sort_map[ 'result_key' ] = result_key
+    1. **ASSIGN** sort_map[ 'likes' ] = search_result[ 'likes' ]
+    1. **ASSIGN** sort_map[ 'points' ] = search_result[ 'author' ][ 'points' ]
+    1. **PUSH** array sort_map **IN** array sort_maps
+1. **ENDFOR**
+1. **FOR** J = 0 **TO** sort_maps size **STEP INCREMENT** J
+    1. **FOR** I = 0 **TO** sort_maps size - 1 **STEP INCREMENT** I
+        1. **IF** sort_maps[ i ][ 'points' ] is less than sort_maps[ i + 1 ][ 'points' ] **THEN**
+            1. **ASSIGN** temp = sort_maps[ i + 1 ]
+            1. **ASSIGN** sort_maps[ i + 1 ] = sort_maps[ i ]
+            1. **ASSIGN** sort_maps[ i ] = temp
+        1. **ENDIF**
+        1. **IF** sort_maps[ i ][ 'likes' ] is less than sort_maps[ i + 1 ][ 'likes' ] **THEN**
+            1. **ASSIGN** temp = sort_maps[ i + 1 ]
+            1. **ASSIGN** sort_maps[ i + 1 ] = sort_maps[ i ]
+            1. **ASSIGN** sort_maps[ i ] = temp
+        1. **ENDIF**
+    1. **ENDFOR**
+1. **ENDFOR**
+1. **FOR EVERY** sort_map **IN** sort_maps
+    1. **ASSIGN** key = sort_map[ 'result_key' ]
+    1. **ASSIGN** sorted_posts[ key ] = search_results[ key ]
+1. **ENDFOR**
+1. **RETURN** array sorted_posts
+1. **END**
 
 Question #4 - App Design Flowchart
 ---
